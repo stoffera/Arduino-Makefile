@@ -480,7 +480,7 @@ else
     endif
 
     ifndef BOARDS_TXT
-        BOARDS_TXT  = $(ARDUINO_DIR)/hardware/arduino/boards.txt
+        BOARDS_TXT  = $(ARDUINO_DIR)/hardware/arduino/avr/boards.txt
         $(call show_config_variable,BOARDS_TXT,[COMPUTED],(from ARDUINO_DIR))
     else
         $(call show_config_variable,BOARDS_TXT,[USER])
@@ -788,13 +788,16 @@ ifneq (,$(strip $(LIBS_NOT_FOUND)))
     $(error The following libraries specified in ARDUINO_LIBS could not be found (searched USER_LIB_PATH and ARDUINO_LIB_PATH): $(LIBS_NOT_FOUND))
 endif
 
-SYS_LIBS           := $(wildcard $(SYS_LIBS) $(addsuffix /utility,$(SYS_LIBS)))
+SYS_LIBS           := $(wildcard $(SYS_LIBS) $(addsuffix /src/utility,$(SYS_LIBS)))
 USER_LIBS          := $(wildcard $(USER_LIBS) $(addsuffix /utility,$(USER_LIBS)))
-SYS_INCLUDES        = $(patsubst %,-I%,$(SYS_LIBS))
+SYS_INCLUDES        = $(patsubst %,-I%/src,$(SYS_LIBS))
 USER_INCLUDES       = $(patsubst %,-I%,$(USER_LIBS))
-LIB_C_SRCS          = $(wildcard $(patsubst %,%/*.c,$(SYS_LIBS)))
-LIB_CPP_SRCS        = $(wildcard $(patsubst %,%/*.cpp,$(SYS_LIBS)))
-LIB_AS_SRCS         = $(wildcard $(patsubst %,%/*.S,$(SYS_LIBS)))
+LIB_C_SRCS          = $(wildcard $(patsubst %,%/src/*.c,$(SYS_LIBS))) \
+                      $(wildcard $(patsubst %,%/src/utility/*.c,$(SYS_LIBS)))
+LIB_CPP_SRCS        = $(wildcard $(patsubst %,%/src/*.cpp,$(SYS_LIBS))) \
+                      $(wildcard $(patsubst %,%/src/utility/*.cpp,$(SYS_LIBS)))
+LIB_AS_SRCS         = $(wildcard $(patsubst %,%/src/*.S,$(SYS_LIBS))) \
+                      $(wildcard $(patsubst %,%/src/utility/*.S,$(SYS_LIBS)))
 USER_LIB_CPP_SRCS   = $(wildcard $(patsubst %,%/*.cpp,$(USER_LIBS)))
 USER_LIB_C_SRCS     = $(wildcard $(patsubst %,%/*.c,$(USER_LIBS)))
 USER_LIB_AS_SRCS    = $(wildcard $(patsubst %,%/*.S,$(USER_LIBS)))
