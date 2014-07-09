@@ -437,7 +437,7 @@ endif
 ARDUINO_LIB_PATH  = $(ARDUINO_DIR)/libraries
 $(call show_config_variable,ARDUINO_LIB_PATH,[COMPUTED],(from ARDUINO_DIR))
 ifndef ARDUINO_CORE_PATH
-    ARDUINO_CORE_PATH = $(ARDUINO_DIR)/hardware/arduino/cores/arduino
+    ARDUINO_CORE_PATH = $(ARDUINO_DIR)/hardware/arduino/avr/cores/arduino
     $(call show_config_variable,ARDUINO_CORE_PATH,[DEFAULT])
 else
     $(call show_config_variable,ARDUINO_CORE_PATH,[USER])
@@ -473,7 +473,7 @@ ifdef ALTERNATE_CORE_PATH
 else
 
     ifndef ARDUINO_VAR_PATH
-        ARDUINO_VAR_PATH  = $(ARDUINO_DIR)/hardware/arduino/variants
+        ARDUINO_VAR_PATH  = $(ARDUINO_DIR)/hardware/arduino/avr/variants
         $(call show_config_variable,ARDUINO_VAR_PATH,[COMPUTED],(from ARDUINO_DIR))
     else
         $(call show_config_variable,ARDUINO_VAR_PATH,[USER])
@@ -927,7 +927,7 @@ endif
 
 # either calculate parent dir from arduino dir, or user-defined path
 ifndef BOOTLOADER_PARENT
-    BOOTLOADER_PARENT = $(ARDUINO_DIR)/hardware/arduino/bootloaders
+    BOOTLOADER_PARENT = $(ARDUINO_DIR)/hardware/arduino/avr/bootloaders
     $(call show_config_variable,BOOTLOADER_PARENT,[COMPUTED],(from ARDUINO_DIR))
 else
     $(call show_config_variable,BOOTLOADER_PARENT,[USER])
